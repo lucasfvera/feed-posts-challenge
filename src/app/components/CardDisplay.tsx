@@ -9,21 +9,36 @@ import {
 	SublimeImageCard,
 	SublimePostCard,
 	SublimeVideoCard,
-} from '../api/services/cards';
+} from '@/app/api/services/cards';
 import Image from 'next/image';
 import { getEmbedUrl } from '@/app/helpers/getEmbedUrl';
 
 const GenericCardDisplay = ({
 	children,
+	card,
 	extendClassName,
 }: {
 	children: ReactNode;
+	card: Card;
 	extendClassName?: HTMLAttributes<HTMLDivElement>['className'];
 }) => {
+	const {
+		content: { author, tag },
+	} = card;
+
 	return (
 		<div
-			className={`relative max-w-[600px] max-h-[700px] overflow-clip bg-gray-300 rounded-2xl p-6 min-h-[200px] flex flex-col gap-4 hover:shadow-xl transition-shadow hover:scale-102 transition-transform cursor-pointer ${extendClassName}`}
+			className={`relative max-w-[600px] overflow-visible bg-gray-200 rounded-2xl rounded-br-none  p-6 min-h-[200px] flex flex-col gap-4 hover:shadow-xl transition-shadow hover:scale-102 transition-transform cursor-pointer ${extendClassName}`}
 		>
+			{/* TODO: Add a CTA to let the user label the element which will help us get better labels */}
+			{tag && (
+				<p className="text-sm absolute top-0 left-4 -translate-y-1/2 px-4 py-1 bg-blue-300 rounded-2xl">
+					{tag}
+				</p>
+			)}
+			<p className="text-sm absolute bottom-0 right-0 translate-y-full px-4 pb-2 bg-gray-200 rounded-b-lg">
+				author: {author || 'Unknown'}
+			</p>
 			{children}
 		</div>
 	);
@@ -34,7 +49,7 @@ const ArticleCardDisplay = ({ articleCard }: { articleCard: ArticleCard }) => {
 
 	// TODO: Should we show the thumbnail? Is it relevant to trigger interest?
 	return (
-		<GenericCardDisplay>
+		<GenericCardDisplay card={articleCard}>
 			{content.title && <p>{content.title}</p>}
 			{content.description && <p>{content.description}</p>}
 		</GenericCardDisplay>
@@ -46,7 +61,7 @@ const SocialCardDisplay = ({ socialCard }: { socialCard: SocialCard }) => {
 	const { content } = socialCard;
 
 	return (
-		<GenericCardDisplay>
+		<GenericCardDisplay card={socialCard}>
 			{content.text}
 			{content.videos &&
 				content.videos.length > 0 &&
@@ -79,13 +94,16 @@ const SublimeImageCardDisplay = ({
 
 	if (hasError)
 		return (
-			<GenericCardDisplay>
+			<GenericCardDisplay card={sublimeImageCard}>
 				{'There was an error while loading the image'}
 			</GenericCardDisplay>
 		);
 	// TODO: Check what alt text we can add
 	return (
-		<GenericCardDisplay extendClassName="items-center">
+		<GenericCardDisplay
+			card={sublimeImageCard}
+			extendClassName="items-center"
+		>
 			<Image
 				onError={() => setHasError(true)}
 				alt="Image Card"
@@ -105,7 +123,7 @@ const SublimePost = ({
 	const { content } = sublimePostCard;
 
 	return (
-		<GenericCardDisplay>
+		<GenericCardDisplay card={sublimePostCard}>
 			{content.text && <p>{content.text}</p>}
 			{content.videos &&
 				content.videos.length > 0 &&
@@ -139,7 +157,10 @@ const SublimeVideo = ({
 
 	if (!embedUrl) return;
 	return (
-		<GenericCardDisplay extendClassName="items-center">
+		<GenericCardDisplay
+			card={sublimeVideoCard}
+			extendClassName="items-center"
+		>
 			<iframe
 				loading="lazy"
 				src={embedUrl}

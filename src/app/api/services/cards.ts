@@ -12,6 +12,14 @@ export enum CardTypeEnum {
 	SublimeVideo = 'sublime_video',
 }
 
+export enum TagTypeEnum {
+	Productivity = 'Productivity',
+	JustForFun = 'Just for Fun',
+	Wellness = 'Wellness',
+	Inspiration = 'Inspiration',
+	ThoughtProvoking = 'Thought-Provoking',
+}
+
 // Common properties that ALL card types share
 export interface BasicCard {
 	id: number;
@@ -35,6 +43,8 @@ export interface BasicContent {
 	title?: string | null;
 	description?: string | null;
 	author?: string | null;
+	// Added tag type for improving UI
+	tag?: TagTypeEnum;
 }
 
 // Article specific content
