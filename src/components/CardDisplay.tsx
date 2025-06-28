@@ -11,7 +11,7 @@ import {
 	SublimeVideoCard,
 } from '@/app/api/services/cards';
 import Image from 'next/image';
-import { getEmbedUrl } from '@/app/helpers/getEmbedUrl';
+import { getEmbedUrl } from '@/helpers/getEmbedUrl';
 
 const GenericCardDisplay = ({
 	children,

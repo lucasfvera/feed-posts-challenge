@@ -1,5 +1,5 @@
 import { SublimeService } from '@/app/api/services/sublimeService';
-import { PanContainer } from '@/app/components/Pan';
+import { PanContainer } from '@/components/Pan';
 
 export default async function Home() {
 	const service = new SublimeService({

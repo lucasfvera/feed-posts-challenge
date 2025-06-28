@@ -1,7 +1,7 @@
 import { CardTypeEnum, TagTypeEnum } from '@/app/api/services/cards';
-import { getCardsByType } from '@/app/helpers/cardsFilters';
+import { getCardsByType } from '@/helpers/cardsFilters';
 import { SublimeService } from '@/app/api/services/sublimeService';
-import { CardDisplay } from '@/app/components/CardDisplay';
+import { CardDisplay } from '@/components/CardDisplay';
 
 const getRandomTag = (): TagTypeEnum | undefined => {
 	const mockedTags = [
