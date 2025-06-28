@@ -28,7 +28,7 @@ const GenericCardDisplay = ({
 
 	return (
 		<div
-			className={`relative max-w-[600px] overflow-visible bg-gray-200 rounded-2xl rounded-br-none  p-6 min-h-[200px] flex flex-col gap-4 hover:shadow-xl transition-shadow hover:scale-102 transition-transform cursor-pointer ${extendClassName}`}
+			className={`relative w-full sm:max-w-[600px] min-h-[200px] overflow-visible bg-gray-200 rounded-2xl rounded-br-none  p-6 flex flex-col gap-4 hover:shadow-xl transition-shadow hover:scale-102 transition-transform cursor-pointer ${extendClassName}`}
 		>
 			{/* TODO: Add a CTA to let the user label the element which will help us get better labels */}
 			{tag && (

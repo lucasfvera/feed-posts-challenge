@@ -44,13 +44,11 @@ export default async function Home() {
 	];
 
 	return (
-		<>
-			<div className="flex flex-col gap-12">
-				{newPosts.map((post) => {
-					post.content.tag = getRandomTag();
-					return <CardDisplay key={post.id} card={post} />;
-				})}
-			</div>
-		</>
+		<div className="flex flex-col gap-12 w-full items-center">
+			{newPosts.map((post) => {
+				post.content.tag = getRandomTag();
+				return <CardDisplay key={post.id} card={post} />;
+			})}
+		</div>
 	);
 }
