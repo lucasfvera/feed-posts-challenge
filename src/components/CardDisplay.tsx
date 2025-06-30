@@ -13,7 +13,7 @@ import {
 import Image from 'next/image';
 import { getEmbedUrl } from '@/helpers/getEmbedUrl';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { ExternalLink } from 'lucide-react';
 
 const GenericCardDisplay = ({
@@ -29,11 +29,14 @@ const GenericCardDisplay = ({
 		content: { author, tag },
 	} = card;
 	const pathname = usePathname();
+	const router = useRouter();
 	const isSelected = pathname.includes(card.id.toString());
 
 	return (
-		<Link
-			href={`/${card.id}`}
+		<button
+			onClick={() => {
+				router.push(`/${card.id}`);
+			}}
 			className={`relative w-full sm:max-w-[600px] min-h-[200px] overflow-visible ${
 				isSelected
 					? 'bg-(--color-bg-card-active)'
@@ -50,7 +53,7 @@ const GenericCardDisplay = ({
 				author: {author || 'Unknown'}
 			</p>
 			{children}
-		</Link>
+		</button>
 	);
 };
 
@@ -64,16 +67,16 @@ const ArticleCardDisplay = ({ articleCard }: { articleCard: ArticleCard }) => {
 		<GenericCardDisplay card={articleCard}>
 			{title && <p className="text-2xl">{title}</p>}
 			{description && <p>{description}</p>}
-			<button
-				className="cursor-pointer w-fit flex gap-2 items-center text-blue-600"
-				onClick={(e) => {
-					e.stopPropagation();
-					window.open(url, '_blank', 'noopener, noreferrer');
-				}}
+			<Link
+				className="cursor-pointer w-fit flex gap-2 items-center text-blue-600 z-20"
+				href={url}
+				target="_blank"
+				rel="noopener noreferrer"
+				onClick={(e) => e.stopPropagation()}
 			>
 				{'Read the full article'}
 				<ExternalLink size={14} />
-			</button>
+			</Link>
 		</GenericCardDisplay>
 	);
 };
