@@ -1,21 +1,7 @@
-import { CardTypeEnum, TagTypeEnum } from '@/app/api/services/cards';
+import { CardTypeEnum } from '@/app/api/services/cards';
 import { getCardsByType } from '@/helpers/cardsFilters';
 import { SublimeService } from '@/app/api/services/sublimeService';
-import { CardDisplay } from '@/components/CardDisplay';
-
-const getRandomTag = (): TagTypeEnum | undefined => {
-	const mockedTags = [
-		'Productivity',
-		'JustForFun',
-		'Wellness',
-		'Inspiration',
-		'ThoughtProvoking',
-	] as const;
-
-	const randomIndex = Math.floor(Math.random() * 6);
-
-	return randomIndex === 5 ? undefined : TagTypeEnum[mockedTags[randomIndex]];
-};
+import { CardList } from '@/components/CardList';
 
 export default async function Home() {
 	const service = new SublimeService({
@@ -30,9 +16,6 @@ export default async function Home() {
 		page: 3,
 		page_size: 200,
 	});
-	console.log(data.results.length);
-	console.log(data2.results.length);
-	console.log(data3.results.length);
 	const posts = [...data.results, ...data2.results, ...data3.results];
 
 	const newPosts = [
@@ -43,12 +26,5 @@ export default async function Home() {
 		...getCardsByType(CardTypeEnum.SublimeVideo, posts).slice(0, 5),
 	];
 
-	return (
-		<div className="flex flex-col gap-12 w-full items-center">
-			{newPosts.map((post) => {
-				post.content.tag = getRandomTag();
-				return <CardDisplay key={post.id} card={post} />;
-			})}
-		</div>
-	);
+	return <CardList cards={newPosts} />;
 }

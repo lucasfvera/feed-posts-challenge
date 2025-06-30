@@ -1,1 +1,29 @@
 @import 'tailwindcss';
+
+/* Naming should follow property-entity-attribute */
+
+@theme inline {
+	--color-primary: #b4b4b8;
+	--color-secondary: #c7c8cc;
+	--color-tertiary: #e3e1d9;
+	--color-quaternary: #f2efe5;
+	--color-bg-feed: var(--color-quaternary);
+	--color-bg-card: var(--color-tertiary);
+	--color-bg-card-active: #fffbc7;
+
+	/* Font families */
+	--font-family-bitter: var(--font-bitter-serif), serif;
+	--font-family-raleway: var(--font-raleway-sans), sans-serif;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+.font-bitter {
+	font-family: var(--font-bitter-serif), serif;
+}
+
+.font-raleway {
+	font-family: var(--font-raleway-sans), sans-serif;
+}

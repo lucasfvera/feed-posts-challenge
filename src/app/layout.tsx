@@ -1,18 +1,17 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Raleway, Bitter } from 'next/font/google';
 import './globals.css';
 import NavigationBar from '@/components/NavigationBar';
 
-const geistSans = Geist({
-	variable: '--font-geist-sans',
+const raleway = Raleway({
+	variable: '--font-raleway-sans',
 	subsets: ['latin'],
 });
 
-const geistMono = Geist_Mono({
-	variable: '--font-geist-mono',
+const bitter = Bitter({
+	variable: '--font-bitter-serif',
 	subsets: ['latin'],
 });
-
 export const metadata: Metadata = {
 	title: 'Sublime Feed',
 	description: '',
@@ -26,7 +25,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased py-16 px-4 sm:p-16 flex flex-col items-center box-border`}
+				className={`${raleway.variable} ${bitter.variable} font-bitter antialiased py-16 px-4 sm:p-16 flex flex-col items-center bg-(--color-bg-feed)`}
 			>
 				<NavigationBar />
 				{children}

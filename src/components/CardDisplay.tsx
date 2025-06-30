@@ -12,6 +12,9 @@ import {
 } from '@/app/api/services/cards';
 import Image from 'next/image';
 import { getEmbedUrl } from '@/helpers/getEmbedUrl';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { ExternalLink } from 'lucide-react';
 
 const GenericCardDisplay = ({
 	children,
@@ -25,10 +28,17 @@ const GenericCardDisplay = ({
 	const {
 		content: { author, tag },
 	} = card;
+	const pathname = usePathname();
+	const isSelected = pathname.includes(card.id.toString());
 
 	return (
-		<div
-			className={`relative w-full sm:max-w-[600px] min-h-[200px] overflow-visible bg-gray-200 rounded-2xl rounded-br-none  p-6 flex flex-col gap-4 hover:shadow-xl transition-shadow hover:scale-102 transition-transform cursor-pointer ${extendClassName}`}
+		<Link
+			href={`/${card.id}`}
+			className={`relative w-full sm:max-w-[600px] min-h-[200px] overflow-visible ${
+				isSelected
+					? 'bg-(--color-bg-card-active)'
+					: 'bg-(--color-bg-card)'
+			} rounded-2xl rounded-br-none  p-6 flex flex-col gap-4 hover:shadow-xl transition-shadow hover:scale-102 transition-transform cursor-pointer ${extendClassName}`}
 		>
 			{/* TODO: Add a CTA to let the user label the element which will help us get better labels */}
 			{tag && (
@@ -36,22 +46,34 @@ const GenericCardDisplay = ({
 					{tag}
 				</p>
 			)}
-			<p className="text-sm absolute bottom-0 right-0 translate-y-full px-4 pb-2 bg-gray-200 rounded-b-lg">
+			<p className="text-sm absolute bottom-0 right-0 translate-y-full px-4 pb-2 bg-inherit rounded-b-lg">
 				author: {author || 'Unknown'}
 			</p>
 			{children}
-		</div>
+		</Link>
 	);
 };
 
 const ArticleCardDisplay = ({ articleCard }: { articleCard: ArticleCard }) => {
-	const { content } = articleCard;
+	const {
+		content: { title, description, url },
+	} = articleCard;
 
 	// TODO: Should we show the thumbnail? Is it relevant to trigger interest?
 	return (
 		<GenericCardDisplay card={articleCard}>
-			{content.title && <p>{content.title}</p>}
-			{content.description && <p>{content.description}</p>}
+			{title && <p className="text-2xl">{title}</p>}
+			{description && <p>{description}</p>}
+			<button
+				className="cursor-pointer w-fit flex gap-2 items-center text-blue-600"
+				onClick={(e) => {
+					e.stopPropagation();
+					window.open(url, '_blank', 'noopener, noreferrer');
+				}}
+			>
+				{'Read the full article'}
+				<ExternalLink size={14} />
+			</button>
 		</GenericCardDisplay>
 	);
 };
