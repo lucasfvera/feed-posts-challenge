@@ -9,7 +9,7 @@
 	--color-quaternary: #f2efe5;
 	--color-bg-feed: var(--color-quaternary);
 	--color-bg-card: var(--color-tertiary);
-	--color-bg-card-active: #fffbc7;
+	--color-bg-card-active: #d6deff;
 
 	/* Font families */
 	--font-family-bitter: var(--font-bitter-serif), serif;
