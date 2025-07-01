@@ -10,10 +10,13 @@ export default async function Home() {
 		<>
 			<div className="flex flex-col gap-8 w-full max-w-2xl items-center text-center">
 				<Image
-					src={'/sublime-logo-ground.avif'}
+					src={'/sublime-logo-ground_low-res.avif'}
 					alt=""
 					width={600}
 					height={200}
+					priority
+					placeholder="blur"
+					blurDataURL={'/sublime-logo-ground_placeholder.avif'}
 				/>
 				<h1 className="text-4xl font-bold text-gray-900">
 					Welcome to Sublime
@@ -32,7 +35,6 @@ export default async function Home() {
 				cards={data.results}
 				cardsFetcherAction={getInfinitePosts}
 			/>
-			;
 		</>
 	);
 }
