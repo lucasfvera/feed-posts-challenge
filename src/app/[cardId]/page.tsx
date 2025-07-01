@@ -1,35 +1,45 @@
-import { SublimeService } from '@/app/api/services/sublimeService';
+import { getIndividualPost, getRelatedPosts } from '@/app/api/services/actions';
 import { CardDisplay } from '@/components/CardDisplay';
 import { CardList } from '@/components/CardList';
-import { EmptyState } from '@/components/EmptyState';
 
 export default async function Page({
 	params,
 }: {
 	params: Promise<{ cardId: string }>;
 }) {
-	const service = new SublimeService({
-		baseUrl: 'http://54.198.139.161',
-	});
 	const { cardId } = await params;
-	const { data: card } = await service.api.cardsRetrieve(Number(cardId));
-	const {
-		data: { results: relatedCards },
-	} = await service.api.cardsRelatedCardsList(Number(cardId));
+	// We could grab this from a cached data since we already fetched the whole list
+	// in the home page.
+	const card = await getIndividualPost(Number(cardId));
+	const relatedCards = await getRelatedPosts(Number(cardId), {
+		page: 1,
+		size: 10,
+	});
+
+	// We could handle this states better like showing the user some call to action
+	// to ensure they don't just see and empty page
+	if (!card || !relatedCards) return;
 	return (
-		<div className="flex flex-col gap-16">
+		<div className="flex flex-col gap-16 items-center">
 			<CardDisplay card={card} />
-			<div className="border-t-2 border-gray-300"></div>
-			{relatedCards.length > 0 ? (
+			<div className="border-t-2 border-gray-300 w-full"></div>
+			{relatedCards.results.length > 0 && (
 				<div className="flex flex-col gap-12">
 					<p className="text-4xl">
 						{'Grab inspiration from these related cards'}
 					</p>
-					<CardList cards={relatedCards} />
 				</div>
-			) : (
-				<EmptyState />
 			)}
+			<CardList
+				cards={relatedCards.results}
+				cardsFetcherAction={async (page, page_size) => {
+					'use server';
+					return getRelatedPosts(Number(cardId), {
+						page,
+						size: page_size,
+					});
+				}}
+			/>
 		</div>
 	);
 }

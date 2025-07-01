@@ -1,30 +1,38 @@
-import { CardTypeEnum } from '@/app/api/services/cards';
-import { getCardsByType } from '@/helpers/cardsFilters';
-import { SublimeService } from '@/app/api/services/sublimeService';
 import { CardList } from '@/components/CardList';
+import { getInfinitePosts } from '@/app/api/services/actions';
+import Image from 'next/image';
 
 export default async function Home() {
-	const service = new SublimeService({
-		baseUrl: 'http://54.198.139.161',
-	});
-	const { data } = await service.api.cardsList({ page: 1, page_size: 100 });
-	const { data: data2 } = await service.api.cardsList({
-		page: 2,
-		page_size: 200,
-	});
-	const { data: data3 } = await service.api.cardsList({
-		page: 3,
-		page_size: 200,
-	});
-	const posts = [...data.results, ...data2.results, ...data3.results];
+	const data = await getInfinitePosts(1, 10);
+	if (!data) return;
 
-	const newPosts = [
-		...getCardsByType(CardTypeEnum.Article, posts).slice(0, 5),
-		...getCardsByType(CardTypeEnum.Social, posts).slice(0, 5),
-		...getCardsByType(CardTypeEnum.SublimeImage, posts).slice(0, 5),
-		...getCardsByType(CardTypeEnum.SublimePost, posts).slice(0, 5),
-		...getCardsByType(CardTypeEnum.SublimeVideo, posts).slice(0, 5),
-	];
+	return (
+		<>
+			<div className="flex flex-col gap-8 w-full max-w-2xl items-center text-center">
+				<Image
+					src={'/sublime-logo-ground.avif'}
+					alt=""
+					width={600}
+					height={200}
+				/>
+				<h1 className="text-4xl font-bold text-gray-900">
+					Welcome to Sublime
+				</h1>
 
-	return <CardList cards={newPosts} />;
+				<div className="space-y-6 text-gray-700">
+					<p className="text-lg leading-relaxed">
+						This is a curated collection of inspiring content from
+						across the web saved by users. We bring together
+						articles, social posts, images, and videos that spark
+						creativity and encourage meaningful conversations.
+					</p>
+				</div>
+			</div>
+			<CardList
+				cards={data.results}
+				cardsFetcherAction={getInfinitePosts}
+			/>
+			;
+		</>
+	);
 }

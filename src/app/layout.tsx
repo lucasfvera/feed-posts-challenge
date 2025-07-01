@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Raleway, Bitter } from 'next/font/google';
 import './globals.css';
-import NavigationBar from '@/components/NavigationBar';
+// import NavigationBar from '@/components/NavigationBar';
 
 const raleway = Raleway({
 	variable: '--font-raleway-sans',
@@ -25,9 +25,9 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body
-				className={`${raleway.variable} ${bitter.variable} font-bitter antialiased py-16 px-4 sm:p-16 flex flex-col items-center bg-(--color-bg-feed)`}
+				className={`${raleway.variable} ${bitter.variable} font-bitter antialiased py-8 px-4 sm:p-16 flex flex-col items-center bg-(--color-bg-feed) gap-16`}
 			>
-				<NavigationBar />
+				{/* <NavigationBar /> */}
 				{children}
 			</body>
 		</html>

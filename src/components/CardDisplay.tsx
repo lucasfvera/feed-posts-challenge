@@ -20,10 +20,12 @@ const GenericCardDisplay = ({
 	children,
 	card,
 	extendClassName,
+	ref,
 }: {
 	children: ReactNode;
 	card: Card;
 	extendClassName?: HTMLAttributes<HTMLDivElement>['className'];
+	ref?: React.Ref<HTMLButtonElement>;
 }) => {
 	const {
 		content: { author, tag },
@@ -34,6 +36,7 @@ const GenericCardDisplay = ({
 
 	return (
 		<button
+			ref={ref}
 			onClick={() => {
 				router.push(`/${card.id}`);
 			}}
@@ -41,7 +44,7 @@ const GenericCardDisplay = ({
 				isSelected
 					? 'bg-(--color-bg-card-active)'
 					: 'bg-(--color-bg-card)'
-			} rounded-2xl rounded-br-none  p-6 flex flex-col gap-4 hover:shadow-xl transition-shadow hover:scale-102 transition-transform cursor-pointer ${extendClassName}`}
+			} rounded-2xl rounded-br-none  p-6 flex flex-col gap-4 hover:shadow-xl transition-all hover:scale-102 cursor-pointer ${extendClassName}`}
 		>
 			{/* TODO: Add a CTA to let the user label the element which will help us get better labels */}
 			{tag && (
@@ -57,14 +60,14 @@ const GenericCardDisplay = ({
 	);
 };
 
-const ArticleCardDisplay = ({ articleCard }: { articleCard: ArticleCard }) => {
+const ArticleCardContent = ({ articleCard }: { articleCard: ArticleCard }) => {
 	const {
 		content: { title, description, url },
 	} = articleCard;
 
 	// TODO: Should we show the thumbnail? Is it relevant to trigger interest?
 	return (
-		<GenericCardDisplay card={articleCard}>
+		<>
 			{title && <p className="text-2xl">{title}</p>}
 			{description && <p>{description}</p>}
 			<Link
@@ -77,16 +80,16 @@ const ArticleCardDisplay = ({ articleCard }: { articleCard: ArticleCard }) => {
 				{'Read the full article'}
 				<ExternalLink size={14} />
 			</Link>
-		</GenericCardDisplay>
+		</>
 	);
 };
 
 // TODO: handle the url to show a link (this differentiates it from the sublime post type)
-const SocialCardDisplay = ({ socialCard }: { socialCard: SocialCard }) => {
+const SocialCardContent = ({ socialCard }: { socialCard: SocialCard }) => {
 	const { content } = socialCard;
 
 	return (
-		<GenericCardDisplay card={socialCard}>
+		<>
 			{content.text}
 			{content.videos &&
 				content.videos.length > 0 &&
@@ -105,11 +108,11 @@ const SocialCardDisplay = ({ socialCard }: { socialCard: SocialCard }) => {
 			{content.images &&
 				content.images.length > 0 &&
 				content.images.map((image, i) => <img key={i} src={image} />)}
-		</GenericCardDisplay>
+		</>
 	);
 };
 
-const SublimeImageCardDisplay = ({
+const SublimeImageCardContent = ({
 	sublimeImageCard,
 }: {
 	sublimeImageCard: SublimeImageCard;
@@ -117,30 +120,21 @@ const SublimeImageCardDisplay = ({
 	const [hasError, setHasError] = useState(false);
 	const { content } = sublimeImageCard;
 
-	if (hasError)
-		return (
-			<GenericCardDisplay card={sublimeImageCard}>
-				{'There was an error while loading the image'}
-			</GenericCardDisplay>
-		);
+	if (hasError) return <>{'There was an error while loading the image'}</>;
+
 	// TODO: Check what alt text we can add
 	return (
-		<GenericCardDisplay
-			card={sublimeImageCard}
-			extendClassName="items-center"
-		>
-			<Image
-				onError={() => setHasError(true)}
-				alt="Image Card"
-				src={content.url}
-				width={500}
-				height={500}
-			/>
-		</GenericCardDisplay>
+		<Image
+			onError={() => setHasError(true)}
+			alt="Image Card"
+			src={content.url}
+			width={500}
+			height={500}
+		/>
 	);
 };
 
-const SublimePost = ({
+const SublimePostContent = ({
 	sublimePostCard,
 }: {
 	sublimePostCard: SublimePostCard;
@@ -148,7 +142,7 @@ const SublimePost = ({
 	const { content } = sublimePostCard;
 
 	return (
-		<GenericCardDisplay card={sublimePostCard}>
+		<>
 			{content.text && <p>{content.text}</p>}
 			{content.videos &&
 				content.videos.length > 0 &&
@@ -167,11 +161,11 @@ const SublimePost = ({
 			{content.images &&
 				content.images.length > 0 &&
 				content.images.map((image, i) => <img key={i} src={image} />)}
-		</GenericCardDisplay>
+		</>
 	);
 };
 
-const SublimeVideo = ({
+const SublimeVideoContent = ({
 	sublimeVideoCard,
 }: {
 	sublimeVideoCard: SublimeVideoCard;
@@ -180,41 +174,63 @@ const SublimeVideo = ({
 
 	const embedUrl = getEmbedUrl(content.url);
 
-	if (!embedUrl) return;
+	if (!embedUrl) return null;
+
 	return (
-		<GenericCardDisplay
-			card={sublimeVideoCard}
-			extendClassName="items-center"
-		>
-			<iframe
-				loading="lazy"
-				src={embedUrl}
-				referrerPolicy="same-origin"
-				width={500}
-				height={500}
-			></iframe>
-		</GenericCardDisplay>
+		<iframe
+			loading="lazy"
+			src={embedUrl}
+			referrerPolicy="same-origin"
+			width={500}
+			height={500}
+		></iframe>
 	);
 };
 
-export const CardDisplay = ({ card }: { card: Card }) => {
+export const CardDisplay = ({
+	card,
+	ref,
+}: {
+	card: Card;
+	ref?: React.Ref<HTMLButtonElement>;
+}) => {
+	let content: ReactNode;
+	let extendClassName: string | undefined;
+
 	switch (card.card_type) {
 		case CardTypeEnum.Social:
-			return <SocialCardDisplay socialCard={card} />;
+			content = <SocialCardContent socialCard={card} />;
+			break;
 
 		case CardTypeEnum.Article:
-			return <ArticleCardDisplay articleCard={card} />;
+			content = <ArticleCardContent articleCard={card} />;
+			break;
 
 		case CardTypeEnum.SublimeImage:
-			return <SublimeImageCardDisplay sublimeImageCard={card} />;
+			content = <SublimeImageCardContent sublimeImageCard={card} />;
+			extendClassName = 'items-center';
+			break;
 
 		case CardTypeEnum.SublimePost:
-			return <SublimePost sublimePostCard={card} />;
+			content = <SublimePostContent sublimePostCard={card} />;
+			break;
 
 		case CardTypeEnum.SublimeVideo:
-			return <SublimeVideo sublimeVideoCard={card} />;
+			content = <SublimeVideoContent sublimeVideoCard={card} />;
+			extendClassName = 'items-center';
+			break;
 
 		default:
 			return null;
 	}
+
+	return (
+		<GenericCardDisplay
+			ref={ref}
+			card={card}
+			extendClassName={extendClassName}
+		>
+			{content}
+		</GenericCardDisplay>
+	);
 };
