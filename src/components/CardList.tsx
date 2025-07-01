@@ -1,7 +1,7 @@
 'use client';
 
 import { Card } from '@/app/api/services/cards';
-import { getRandomCardTag } from '@/app/api/services/getRandomCardTag';
+import { getRandomCardTagById } from '@/app/api/services/getRandomCardTag';
 import { CardDisplay } from '@/components/CardDisplay';
 import { CardLoadingSkeleton } from '@/components/CardLoading';
 import { EmptyState } from '@/components/EmptyState';
@@ -44,7 +44,7 @@ export const CardList = ({
 	return (
 		<div className="flex flex-col gap-12 w-full items-center relative">
 			{posts.map((post, index) => {
-				post.content.tag = getRandomCardTag();
+				post.content.tag = getRandomCardTagById(post.id);
 				return (
 					<CardDisplay
 						key={post.id}
