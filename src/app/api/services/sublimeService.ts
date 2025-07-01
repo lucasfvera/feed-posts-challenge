@@ -390,6 +390,10 @@ export class SublimeService<
 				query: query,
 				secure: true,
 				format: 'json',
+				cache: 'force-cache',
+				next: {
+					revalidate: 3600,
+				},
 				...params,
 			}),
 
@@ -426,6 +430,10 @@ export class SublimeService<
 				method: 'GET',
 				secure: true,
 				format: 'json',
+				cache: 'force-cache',
+				next: {
+					revalidate: 3600,
+				},
 				...params,
 			}),
 
@@ -545,6 +553,10 @@ export class SublimeService<
 				query: query,
 				secure: true,
 				format: 'json',
+				cache: 'force-cache',
+				next: {
+					revalidate: 3600,
+				},
 				...params,
 			}),
 
