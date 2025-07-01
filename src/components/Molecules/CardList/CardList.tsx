@@ -2,9 +2,9 @@
 
 import { Card } from '@/app/api/services/cards';
 import { getRandomCardTagById } from '@/app/api/services/getRandomCardTag';
-import { CardDisplay } from '@/components/CardDisplay';
-import { CardLoadingSkeleton } from '@/components/CardLoading';
-import { EmptyState } from '@/components/EmptyState';
+import { CardDisplay } from '@/components/Molecules/CardDisplay/CardDisplay';
+import { CardLoadingSkeleton } from '@/components/Atoms/CardLoading';
+import { EmptyState } from '@/components/Molecules/CardList/EmptyState';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 

@@ -1,4 +1,4 @@
-import { CardList } from '@/components/CardList';
+import { CardList } from '@/components/Molecules/CardList/CardList';
 import { getInfinitePosts } from '@/app/api/services/actions';
 import Image from 'next/image';
 

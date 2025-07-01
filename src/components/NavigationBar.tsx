@@ -9,7 +9,6 @@ export default function NavigationBar() {
 	const navItems = [
 		{ href: '/', label: 'Home', icon: '🏠' },
 		{ href: '/serendipity', label: 'Serendipity', icon: '🎲' },
-		{ href: '/about', label: 'About', icon: 'ℹ️' },
 	];
 
 	return (

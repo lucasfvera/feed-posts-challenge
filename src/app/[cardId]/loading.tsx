@@ -1,4 +1,4 @@
-import { CardLoadingSkeleton } from '@/components/CardLoading';
+import { CardLoadingSkeleton } from '@/components/Atoms/CardLoading';
 
 export default function Loading() {
 	return <CardLoadingSkeleton />;

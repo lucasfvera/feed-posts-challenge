@@ -1,6 +1,6 @@
 import { getIndividualPost, getRelatedPosts } from '@/app/api/services/actions';
-import { CardDisplay } from '@/components/CardDisplay';
-import { CardList } from '@/components/CardList';
+import { CardDisplay } from '@/components/Molecules/CardDisplay/CardDisplay';
+import { CardList } from '@/components/Molecules/CardList/CardList';
 import Link from 'next/link';
 
 export default async function Page({
