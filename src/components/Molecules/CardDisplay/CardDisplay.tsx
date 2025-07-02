@@ -58,7 +58,11 @@ const GenericCardDisplay = ({
 			{children}
 			{/* To ensure a better loading experience we add this Link to pre-fetch the next page the user could navigate to.
 			This serves an instant loading page to the user until they fetch the actual page*/}
-			<Link href={`/${card.id}`} ref={linkRef} />
+			<Link
+				href={`/${card.id}`}
+				ref={linkRef}
+				data-testid="navigation-link"
+			/>
 		</button>
 	);
 };
@@ -104,6 +108,7 @@ const SocialCardContent = ({ socialCard }: { socialCard: SocialCard }) => {
 						controls
 						preload="none"
 						poster={video.thumbnail || ''}
+						data-testid="video-element"
 					>
 						<source src={video.video_url} />
 						{'Your browser does not support the video tag.'}
@@ -157,6 +162,7 @@ const SublimePostContent = ({
 						controls
 						preload="none"
 						poster={video.thumbnail || ''}
+						data-testid="video-element"
 					>
 						<source src={video.video_url} />
 						{'Your browser does not support the video tag.'}
@@ -188,6 +194,7 @@ const SublimeVideoContent = ({
 			referrerPolicy="same-origin"
 			width={500}
 			height={500}
+			data-testid="video-iframe"
 		></iframe>
 	);
 };
