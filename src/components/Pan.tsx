@@ -64,14 +64,14 @@ export function PanContainer() {
 			onMouseDown={onMouseDown}
 			style={{ userSelect: 'none' }}
 		>
-			<div className="w-[3000px] h-[3000px] bg-amber-200 relative">
+			<div className="w-[3000px] h-[3000px] relative">
 				<div
 					className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 grid ${GRID}`}
 				>
 					{Array.from({ length: 100 }).map((_, i) => (
 						<div
 							key={i}
-							className={`${BOX} bg-blue-400 border-2 border-blue-800 flex items-center justify-center text-white text-xl font-bold`}
+							className={`${BOX} bg-(--color-bg-card) border-2 flex items-center justify-center text-xl font-bold`}
 						>
 							{i + 1}
 						</div>
