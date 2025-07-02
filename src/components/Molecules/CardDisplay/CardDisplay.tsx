@@ -1,6 +1,6 @@
 'use client';
 
-import { HTMLAttributes, ReactNode, useState } from 'react';
+import { HTMLAttributes, ReactNode, useRef, useState } from 'react';
 import {
 	Card,
 	CardTypeEnum,
@@ -13,7 +13,7 @@ import {
 import Image from 'next/image';
 import { getEmbedUrl } from '@/helpers/getEmbedUrl';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { ExternalLink } from 'lucide-react';
 
 const GenericCardDisplay = ({
@@ -31,14 +31,14 @@ const GenericCardDisplay = ({
 		content: { author, tag },
 	} = card;
 	const pathname = usePathname();
-	const router = useRouter();
+	const linkRef = useRef<HTMLAnchorElement | null>(null);
 	const isSelected = pathname.includes(card.id.toString());
 
 	return (
 		<button
 			ref={ref}
 			onClick={() => {
-				router.push(`/${card.id}`);
+				if (linkRef.current) linkRef.current.click();
 			}}
 			className={`relative w-full sm:max-w-[600px] min-h-[200px] overflow-visible ${
 				isSelected
@@ -56,6 +56,9 @@ const GenericCardDisplay = ({
 				author: {author || 'Unknown'}
 			</p>
 			{children}
+			{/* To ensure a better loading experience we add this Link to pre-fetch the next page the user could navigate to.
+			This serves an instant loading page to the user until they fetch the actual page*/}
+			<Link href={`/${card.id}`} ref={linkRef} />
 		</button>
 	);
 };

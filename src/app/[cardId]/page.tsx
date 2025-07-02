@@ -2,6 +2,13 @@ import { getIndividualPost, getRelatedPosts } from '@/app/api/services/actions';
 import { CardDisplay } from '@/components/Molecules/CardDisplay/CardDisplay';
 import { CardList } from '@/components/Molecules/CardList/CardList';
 import Link from 'next/link';
+// We could select a set of params to be pre-generated if we want to
+// (like the first 10) to ensure that those first posts would be
+// delivered instantly without needing to render them (they would be
+// generated at build time).
+export async function generateStaticParams() {
+	return [];
+}
 
 export default async function Page({
 	params,
