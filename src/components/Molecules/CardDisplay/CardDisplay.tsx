@@ -48,7 +48,7 @@ const GenericCardDisplay = ({
 		>
 			{/* TODO: Add a CTA to let the user label the element which will help us get better labels */}
 			{tag && (
-				<p className="text-sm absolute top-0 left-4 -translate-y-1/2 px-4 py-1 bg-blue-300 rounded-2xl">
+				<p className="text-sm absolute top-0 left-4 -translate-y-1/2 px-4 py-1 bg-(--color-bg-tag) rounded-2xl">
 					{tag}
 				</p>
 			)}
@@ -70,11 +70,13 @@ const ArticleCardContent = ({ articleCard }: { articleCard: ArticleCard }) => {
 
 	// TODO: Should we show the thumbnail? Is it relevant to trigger interest?
 	return (
-		<>
-			{title && <p className="text-2xl">{title}</p>}
-			{description && <p>{description}</p>}
+		<div className="flex flex-col justify-between flex-1">
+			<div className="flex flex-col gap-4">
+				{title && <p className="text-2xl">{title}</p>}
+				{description && <p>{description}</p>}
+			</div>
 			<Link
-				className="cursor-pointer w-fit flex gap-2 items-center text-blue-600 z-20"
+				className="cursor-pointer w-fit flex gap-2 items-center text-(--color-text-link) z-20"
 				href={url}
 				target="_blank"
 				rel="noopener noreferrer"
@@ -83,7 +85,7 @@ const ArticleCardContent = ({ articleCard }: { articleCard: ArticleCard }) => {
 				{'Read the full article'}
 				<ExternalLink size={14} />
 			</Link>
-		</>
+		</div>
 	);
 };
 
