@@ -4,12 +4,18 @@
 
 @theme inline {
 	--color-primary: #b4b4b8;
-	--color-secondary: #c7c8cc;
+	--color-secondary: #d6ca9b;
 	--color-tertiary: #e3e1d9;
 	--color-quaternary: #f2efe5;
 	--color-bg-feed: var(--color-quaternary);
 	--color-bg-card: var(--color-tertiary);
 	--color-bg-card-active: #d6deff;
+	--color-bg-tag: var(--color-secondary);
+
+	--color-primary-button: var(--color-blue-300);
+	--color-primary-button-hover: var(--color-blue-400);
+
+	--color-text-link: var(--color-blue-700);
 
 	/* Font families */
 	--font-family-bitter: var(--font-bitter-serif), serif;

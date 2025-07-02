@@ -1,7 +1,7 @@
 import { getIndividualPost, getRelatedPosts } from '@/app/api/services/actions';
+import { LinkButton } from '@/components/Atoms/Button';
 import { CardDisplay } from '@/components/Molecules/CardDisplay/CardDisplay';
 import { CardList } from '@/components/Molecules/CardList/CardList';
-import Link from 'next/link';
 // We could select a set of params to be pre-generated if we want to
 // (like the first 10) to ensure that those first posts would be
 // delivered instantly without needing to render them (they would be
@@ -29,14 +29,11 @@ export default async function Page({
 	if (!card || !relatedCards) return;
 	return (
 		<div className="flex flex-col gap-16 items-center">
-			<div className="flex flex-col gap-4 w-full items-center">
+			<div className="flex flex-col gap-6 w-full items-center">
 				<div className="w-full flex justify-start">
-					<Link
-						href="/"
-						className="inline-flex items-center px-4 py-2 bg-blue-500 text-white font-medium rounded-full hover:bg-blue-600 transition-colors duration-200 shadow-sm hover:shadow-md"
-					>
+					<LinkButton href="/">
 						<span className="mr-2">←</span> Back to Home
-					</Link>
+					</LinkButton>
 				</div>
 				<CardDisplay card={card} />
 			</div>
